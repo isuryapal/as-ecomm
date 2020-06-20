@@ -1,0 +1,184 @@
+<?php
+	/*
+	 * v1 - basic SMTP email class
+	 *
+	 * TEMPLATE CODE TO IMPLEMENT CLASS
+		$newCustomerDetails = $user->addSomething($_POST);
+		include_once("member-register-email.inc.php");
+		include_once("Email.class.php");
+		$emailObj = new Email();
+		$emailObj->setAddress($email);
+		$emailObj->setSubject("Welcome to example.com");
+		$emailObj->setEmailBody($emailMsg);
+		$emailObj->sendEmail();
+	 *
+	 */
+
+	require("sendgrid/sendgrid-php.php");
+
+	class Email{
+		private $to;
+		// private $admin = ADMIN_EMAIL; // DEPRECATED
+		private $admin = '';
+		private $from = "info@fourwalls.in";
+		private $subject;
+		function setAddress($to){
+			$this->to = $to;
+		}
+		function setAdminAddress($to){
+			$this->admin = $to;
+		}
+		function setFromAddress($from){
+			$this->from = $from;
+		}
+		function setSubject($subject){
+			$this->subject = $subject;
+		}
+		function setEmailBody($msg){
+			$this->msg = $msg;
+		}
+		function sendEmail(){
+			if(!isset($this->to) || empty($this->to)){
+				return false;
+			}
+			if(!isset($this->subject) || empty($this->subject)){
+				return false;
+			}
+			if(!isset($this->msg) || empty($this->msg)){
+				return false;
+			}
+
+
+			/*$from = new SendGrid\Email(null, $this->from);
+			$to = new SendGrid\Email(null, $this->to);
+			$content = new SendGrid\Content("text/plain", $this->msg);
+			$mail = new SendGrid\Mail($from, $this->subject, $to, $content);
+
+			// $apiKey = getenv('SENDGRID_API_KEY');
+			// $apiKey = getenv('f8JkvAsdTymxigIADYr5YQ');
+			// $apiKey = getenv('C_9f0dWnRZOs3Kw2ZzI9Iw');
+			// $apiKey = getenv('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');
+			// $apiKey = getenv('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');
+			
+			$apiKey = getenv('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');
+			$sg = new \SendGrid($apiKey);
+
+			$response = $sg->client->mail()->send()->post($mail);
+			echo $response->statusCode();
+			echo "<br>";echo "<br>";
+			echo $response->headers();
+			echo "<br>";echo "<br>";
+			echo $response->body();
+			echo "<br>";echo "<br>"; */
+
+			$apiKey = getenv('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');
+			// $apiKey = getenv('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');
+			$sg = new \SendGrid($apiKey);
+
+			$from = new Email(null, "test@example.com");
+			$subject = "Hello World from the SendGrid PHP Library";
+			$to = new Email(null, "test@example.com");
+			$content = new SendGrid\Content("text/plain", "some text here");
+			$mail = new SendGrid\Mail($from, $subject, $to, $content);
+			$to = new Email(null, "apurva@innovins.com");
+			$mail->personalization[0]->addTo($to);
+			//echo json_encode($mail, JSON_PRETTY_PRINT), "\n";
+
+			$request_body = $mail;
+
+			$response = $sg->client->mail()->send()->post($request_body);
+			echo $response->statusCode();
+			echo "<br>";echo "<br>";
+			echo $response->body();
+			echo "<br>";echo "<br>";
+			echo $response->headers();
+
+			/* if(isset($this->admin) && !empty($this->admin)){
+				$mail->AddBcc($this->admin);
+			}
+
+
+			if( $response->statusCode() == 200 ){
+				echo $mail->ErrorInfo;
+				return true;
+			} else {
+				echo $mail->ErrorInfo;
+				return false;
+			} */
+
+		}
+	}
+	
+	/*
+	
+    $fp = fsockopen("www.google.com", 80, $errno, $errstr, 10); // work fine
+    if (!$fp)
+        echo "www.google.com -  $errstr   ($errno)<br>\n";
+    else
+        echo "www.google.com -  ok<br>\n";
+
+
+    $fp = fsockopen("smtp.gmail.com", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.gmail.com 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.gmail.com 465 -  ok<br>\n";
+
+
+    $fp = fsockopen("smtp.gmail.com", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.gmail.com 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.gmail.com 587 -  ok<br>\n";
+
+	
+	$fp = fsockopen("smtp-relay.gmail.com", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp-relay.gmail.com 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp-relay.gmail.com 465 -  ok<br>\n";
+
+	 $fp = fsockopen("smtp-relay.gmail.com", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp-relay.gmail.com 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp-relay.gmail.com 587 -  ok<br>\n";
+
+	*/
+	
+	/*
+	$fp = fsockopen("smtp.sendgrid.net", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.sendgrid.net 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.sendgrid.net 465 -  ok<br>\n";
+
+	 $fp = fsockopen("smtp.sendgrid.net", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.sendgrid.net 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.sendgrid.net 587 -  ok<br>\n";
+
+	*/
+
+	$email = "apurva@innovins.com";
+	// include_once("customer-register-email.inc.php");
+	$emailObj = new Email();
+	$emailObj->setAddress($email);
+	$emailObj->setSubject("Welcome to 4Walls");
+	// $emailObj->setEmailBody($emailMsg);
+	// $emailObj->setEmailBody('Hello World!<small>!</small>');
+	$emailObj->setEmailBody('Hello World!');
+	
+	// echo $emailMsg;
+
+	$response = $emailObj->sendEmail();
+	echo "<br>";
+	if($response){
+		echo '<h2>Email Sent</h2>';
+	} else {
+		echo '<h2>Email sending failed</h2>';
+	}
+	var_dump($response);
+
+?>

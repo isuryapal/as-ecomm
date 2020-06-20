@@ -1,0 +1,153 @@
+.droperarrow{
+	display: none;
+}
+
+
+@media (max-width:1024px) {
+	.header-cart-box.cart-icon.mobilecart {
+	    width: 50px;
+	    float:right;
+	    margin:0px;
+	    text-align:center;
+	    padding:0px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    margin:15px 0px;
+	}
+	.header-cart-box.cart-icon img{
+		margin:0px;
+		text-align:center;
+		display: block;
+		padding:0px;
+		line-height: 50px;
+	}
+	.menu .cartmenu{
+		display: none;
+	}
+
+	.header-rgt{
+		display: block;
+		margin-left:0px;
+		padding:0px;
+	}
+
+	.headersearch{
+		display: none!important;
+	}
+	.headermobilesearch{
+		display: block;
+	}
+	.downhead{
+		padding:0px;
+	}
+	.navbar-form{
+		margin-top: 13px;
+	}
+	.header .menu-icon{
+		padding:26px 20px 20px 0px;
+	}
+
+	.header .menu{
+		position: fixed;
+		width: 60%!important;
+		height: 100vh;
+		max-height:initial!important;
+		overflow:auto;
+		top:0%;
+		z-index: 9999999;
+		left:0px;
+		background: #fff;
+		text-align:center;
+		padding-top: 10%;
+	}
+
+	.dropdown-menu{
+		position:static;
+	}
+
+	
+	header .dropdown-submenu{
+		text-align:left!important;
+	}
+
+	.menu .dropdown .dropdown-submenu a{
+		z-index: 9999;
+	}
+
+	ul.menu li{
+		text-align:center;
+		box-shadow: none!important;
+	}
+
+	
+
+	ul.menu.headermenu .dropdown-menu{
+		box-shadow: none!important;
+	}
+
+
+	
+	.haschildren>.droperarrow{
+		position: absolute;
+		right:0px;
+		top:0px;
+		height:31px;
+		width:31px;
+		display: block;
+	}
+
+	.haschildren>.droperarrow:after{
+		content: '\f078';
+		color: #295f5e; 
+	    position: absolute;
+	    top: 50%;
+	    transform: translate(-50% , -50%);
+	    font-family: FontAwesome;
+	    z-index: 9999999;
+	}
+
+	.haschildren>.activearrow.droperarrow:after{
+		content: '\f077';
+	}
+
+	/*//first menu*/
+	.dropdown:hover>.dropdown-menu{
+		display: none;
+	}
+
+	.submenuopened .showdropdown{
+		display: block!important;
+	}
+	.submenuopened ul.showdropdown{
+		max-width:100%;
+		margin:0px auto;
+	}
+
+	.dropdown-menu{
+		width: 100%!important;
+		padding:0px 0px!important;
+	}
+
+	ul.menu li:last-child{
+		padding:0px!important;
+	}
+
+	/*Second Menu*/
+	.dropdown-submenu:hover>.dropdown-menu{
+		display: none;
+	}
+
+	.subsubmenuopened .showdropdown{
+		display: block!important;
+	}
+
+	.dropdown-menu .dropdown-submenu.haschildren:after{
+		display: none;
+	}
+	ul.dropdown-menu.multi-level li{
+		border-bottom:1px solid #ccc;
+		padding:0px;
+	}
+
+}

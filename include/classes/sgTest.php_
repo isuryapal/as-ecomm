@@ -1,0 +1,24 @@
+<?php
+	require("sendgrid/sendgrid-php.php");
+	
+	$from = new SendGrid\Email(null, "info@fourwalls.in");
+	$to = new SendGrid\Email(null, "apurva@innovins.com");
+	$content = new SendGrid\Content("text/plain", "TEST");
+	$mail = new SendGrid\Mail($from, "Subject", $to, $content);
+
+	// $apiKey = getenv('SENDGRID_API_KEY');
+	// $apiKey = getenv('f8JkvAsdTymxigIADYr5YQ');
+	// $apiKey = getenv('C_9f0dWnRZOs3Kw2ZzI9Iw');
+	// $apiKey = getenv('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');
+	$apiKey = getenv('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');
+	// $apiKey = getenv('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');
+	$sg = new \SendGrid($apiKey);
+
+	$response = $sg->client->mail()->send()->post($mail);
+	echo $response->statusCode();
+	echo "<br>";echo "<br>";
+	echo $response->headers();
+	echo "<br>";echo "<br>";
+	echo $response->body();
+	echo "<br>";echo "<br>"; 
+?>

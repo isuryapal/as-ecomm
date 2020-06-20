@@ -1,0 +1,184 @@
+<?php
+	/*
+	 * v1 - basic SMTP email class
+	 *
+	 * TEMPLATE CODE TO IMPLEMENT CLASS
+		$newCustomerDetails = $user->addSomething($_POST);
+		include_once("member-register-email.inc.php");
+		include_once("Email.class.php");
+		$emailObj = new Email();
+		$emailObj->setAddress($email);
+		$emailObj->setSubject("Welcome to example.com");
+		$emailObj->setEmailBody($emailMsg);
+		$emailObj->sendEmail();
+	 *
+	 */
+
+	include_once("include/classes/class.phpmailer.php");
+
+	class Email{
+		private $to;
+		// private $admin = ADMIN_EMAIL; // DEPRECATED
+		private $admin = '';
+		private $from = "info@fourwalls.in";
+		private $subject;
+		function setAddress($to){
+			$this->to = $to;
+		}
+		function setAdminAddress($to){
+			$this->admin = $to;
+		}
+		function setFromAddress($from){
+			$this->from = $from;
+		}
+		function setSubject($subject){
+			$this->subject = $subject;
+		}
+		function setEmailBody($msg){
+			$this->msg = $msg;
+		}
+		function sendEmail(){
+			if(!isset($this->to) || empty($this->to)){
+				return false;
+			}
+			if(!isset($this->subject) || empty($this->subject)){
+				return false;
+			}
+			if(!isset($this->msg) || empty($this->msg)){
+				return false;
+			}
+
+			$mail = new PHPMailer();
+
+			$mail->SetLanguage('en', 'include/classes/language/');
+
+			$mail->IsSMTP();
+			$mail->SMTPAuth = true;
+			$mail->IsHTML(true);
+
+			// == NON SSL ==
+			// $mail->Host = "aspmx.l.google.com";
+			// $mail->Port = 25;
+			// == NON SSL ==
+
+
+			// == SSL ==
+			$mail->Host = "smtp.gmail.com";
+			// $mail->Host = "smtp-relay.gmail.com";
+			// $mail->Host = "smtp.sendgrid.net";
+			$mail->Port = 465;
+			// $mail->Port = 587;
+			// $mail->SMTPSecure = "ssl";
+			// $mail->SMTPSecure = "tls";
+			$mail->Username = "info@fourwalls.in";
+			$mail->Password = "travelmate1.";
+			// == SSL ==
+
+			// $mail->AddReplyTo("mail@mail.com");
+			echo $mail->From = $this->from;
+			$mail->FromName = "Test";
+			
+			echo "<br>";
+			echo $mail->Host;
+			echo "<br>";
+			echo $mail->Port;
+			echo "<br>";
+			echo $this->to;
+			
+			$mail->AddAddress($this->to);
+
+			if(isset($this->admin) && !empty($this->admin)){
+				$mail->AddBcc($this->admin);
+			}
+
+			echo "<br>";
+			echo $mail->Subject = $this->subject;
+			echo "<br>";
+			echo $mail->Body = $this->msg;
+			echo "<br>";
+			// $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
+
+			$mail->SmtpClose();
+
+			if( $mail->Send() ){
+				echo $mail->ErrorInfo;
+				return true;
+			} else {
+				echo $mail->ErrorInfo;
+				return false;
+			}
+
+		}
+	}
+	
+	
+	
+    $fp = fsockopen("www.google.com", 80, $errno, $errstr, 10); // work fine
+    if (!$fp)
+        echo "www.google.com -  $errstr   ($errno)<br>\n";
+    else
+        echo "www.google.com -  ok<br>\n";
+
+
+    $fp = fsockopen("smtp.gmail.com", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.gmail.com 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.gmail.com 465 -  ok<br>\n";
+
+
+    $fp = fsockopen("smtp.gmail.com", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.gmail.com 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.gmail.com 587 -  ok<br>\n";
+
+	
+	$fp = fsockopen("smtp-relay.gmail.com", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp-relay.gmail.com 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp-relay.gmail.com 465 -  ok<br>\n";
+
+	 $fp = fsockopen("smtp-relay.gmail.com", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp-relay.gmail.com 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp-relay.gmail.com 587 -  ok<br>\n";
+
+	
+	$fp = fsockopen("smtp.sendgrid.net", 465, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.sendgrid.net 465  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.sendgrid.net 465 -  ok<br>\n";
+
+	 $fp = fsockopen("smtp.sendgrid.net", 587, $errno, $errstr, 10); // NOT work
+    if (!$fp)
+        echo "smtp.sendgrid.net 587  -  $errstr   ($errno)<br>\n";
+    else
+        echo "smtp.sendgrid.net 587 -  ok<br>\n";
+
+	
+
+	$email = "apurva@innovins.com";
+	// include_once("customer-register-email.inc.php");
+	$emailObj = new Email();
+	$emailObj->setAddress($email);
+	$emailObj->setSubject("Welcome to 4Walls");
+	// $emailObj->setEmailBody($emailMsg);
+	$emailObj->setEmailBody('from gmail');
+	
+	// echo $emailMsg;
+	// phpinfo();
+	
+	$response = $emailObj->sendEmail();
+	echo "<br>";
+	if($response){
+		echo '<h2>Email Sent</h2>';
+	} else {
+		echo '<h2>Email sending failed</h2>';
+	}
+	var_dump($response);
+
+?>
